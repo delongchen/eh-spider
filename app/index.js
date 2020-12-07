@@ -1,22 +1,11 @@
 const {getOneTask} = require('../core/parse')
 const {hash, createExitHandler} = require('../utils/util')
 const DB = require('../data/DBConnector')
+const {itemsFilter, initSet} = require('../data/ResultFilter')
 
 function createApp(config) {
-  const ID_SET = new Set()
   let CONFIG = {
     run: true,
-  }
-
-  function itemsFilter(items) {
-    return items.filter(value => {
-      const id = value[0]
-      if (!ID_SET.has(id)) {
-        ID_SET.add(id)
-        return true
-      }
-      return false
-    })
   }
 
   async function oneTask() {
@@ -32,10 +21,7 @@ function createApp(config) {
 
   async function run() {
     createExitHandler(CONFIG)
-    const ids = await DB.select('select id from st')
-    ids.forEach(id => {
-      ID_SET.add(id.id)
-    })
+    initSet(await DB.select('select id from st'))
 
     while (CONFIG.run) {
       console.log('task')

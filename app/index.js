@@ -34,16 +34,15 @@ function createApp(config) {
 
     while (CONFIG.pause) {
       await new Promise(resolve => {
+        if (counter === time) CONFIG.pause = false
         setTimeout(() => {
           if (!CONFIG.to_quit) {
-            console.log(`wait 1 second... all: ${time}`)
+            console.log(`wait 1 second... now: ${counter} all: ${time}`)
             counter++
           }
           resolve()
         }, 1000)
       })
-
-      if (counter === time) CONFIG.pause = false
     }
   }
 

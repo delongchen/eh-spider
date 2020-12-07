@@ -28,14 +28,17 @@ function createApp(config) {
   }
 
   async function waitNextTick() {
-    const time = 60
+    const time = 3600
     CONFIG.pause = true
     let counter = 0
 
     while (CONFIG.pause) {
       await new Promise(resolve => {
         setTimeout(() => {
-          if (!CONFIG.to_quit) counter++
+          if (!CONFIG.to_quit) {
+            console.log(`wait 1 second... all: ${time}`)
+            counter++
+          }
           resolve()
         }, 1000)
       })
@@ -50,8 +53,10 @@ function createApp(config) {
 
     beforeRun()
     while (CONFIG.run) {
+      console.log('start run')
       const raw = await oneTask()
       const toInsert = itemsFilter(raw)
+      console.log(`fetch ${toInsert.length} items`)
       await toInsert.reduce((promise, data) => {
         return promise
           .then(() =>

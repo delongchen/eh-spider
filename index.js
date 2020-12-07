@@ -8,10 +8,14 @@ const { run } = createApp({
       JSON.stringify(data)
     ])
   },
-  beforeExit() {},
-  beforeRun() {},
+  beforeExit() {
+    console.log('exit')
+  },
+  beforeRun() {
+    console.log('初始化完毕。。。')
+  },
   nextTick() {
-    console.log('next')
+    console.log('enter next tick')
   }
 })
 

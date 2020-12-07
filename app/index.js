@@ -4,6 +4,13 @@ const DB = require('../data/DBConnector')
 const {itemsFilter, initSet} = require('../data/ResultFilter')
 
 function createApp(config) {
+  const {
+    dataHandler,
+    beforeRun,
+    beforeExit,
+    nextTick
+  } = config
+
   const CONFIG = {
     run: true,
     pause: false,
@@ -13,15 +20,14 @@ function createApp(config) {
   async function oneTask() {
     const w = []
     await getOneTask((data, title, value) => {
-      //data.imgs = value
       data.timestamp = Date.now()
       data.hashcode = hash(title)
-      config.handler(data, w)
+      dataHandler(data, w)
     })
     return w
   }
 
-  async function nextTick() {
+  async function waitNextTick() {
     const time = 60
     CONFIG.pause = true
     let counter = 0
@@ -42,8 +48,8 @@ function createApp(config) {
     createExitHandler(CONFIG)
     initSet(await DB.select('select id from st'))
 
+    beforeRun()
     while (CONFIG.run) {
-      console.log('task')
       const raw = await oneTask()
       const toInsert = itemsFilter(raw)
       await toInsert.reduce((promise, data) => {
@@ -55,10 +61,11 @@ function createApp(config) {
               })
           )
       }, Promise.resolve())
-      await nextTick()
+      nextTick()
+      await waitNextTick()
     }
-
     await DB.close()
+    beforeExit()
   }
 
   return {

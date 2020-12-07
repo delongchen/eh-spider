@@ -1,12 +1,17 @@
 const {createApp} = require('./app')
 
 const { run } = createApp({
-  handler(data, result) {
+  dataHandler(data, result) {
     result.push([
       data.hashcode,
       data.tagName,
       JSON.stringify(data)
     ])
+  },
+  beforeExit() {},
+  beforeRun() {},
+  nextTick() {
+    console.log('next')
   }
 })
 

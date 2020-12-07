@@ -4,8 +4,10 @@ const DB = require('../data/DBConnector')
 const {itemsFilter, initSet} = require('../data/ResultFilter')
 
 function createApp(config) {
-  let CONFIG = {
+  const CONFIG = {
     run: true,
+    pause: false,
+    to_quit: false
   }
 
   async function oneTask() {
@@ -17,6 +19,23 @@ function createApp(config) {
       config.handler(data, w)
     })
     return w
+  }
+
+  async function nextTick() {
+    const time = 60
+    CONFIG.pause = true
+    let counter = 0
+
+    while (CONFIG.pause) {
+      await new Promise(resolve => {
+        setTimeout(() => {
+          if (!CONFIG.to_quit) counter++
+          resolve()
+        }, 1000)
+      })
+
+      if (counter === time) CONFIG.pause = false
+    }
   }
 
   async function run() {
@@ -36,17 +55,13 @@ function createApp(config) {
               })
           )
       }, Promise.resolve())
-
-      await (new Promise(resolve => {
-        setTimeout(resolve, 60000)
-      }))
+      await nextTick()
     }
 
     await DB.close()
   }
 
   return {
-    oneTask,
     run
   }
 }

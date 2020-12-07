@@ -1,18 +1,33 @@
 const ID_SET = new Set()
 
+function addAll(data) {
+  data.forEach(ID_SET.add, ID_SET)
+}
+/**
+ * @param {Array} items
+ */
 function itemsFilter(items) {
-  return items.filter(value => {
+  const idContainer = []
+
+  const result = items.filter(value => {
     const id = value[0]
     if (!ID_SET.has(id)) {
-      ID_SET.add(id)
+      idContainer.push(id)
       return true
     }
-    return false
   })
+
+  if (result.length === items.length) {
+    ID_SET.clear()
+  }
+
+  addAll(idContainer)
+
+  return result
 }
 
 function initSet(rawData) {
-
+  addAll(rawData.map(it => it.id))
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 const {createApp} = require('./app')
 
-const { oneTask, run } = createApp({
+const { run } = createApp({
   handler(data, result) {
     result.push([
       data.hashcode,

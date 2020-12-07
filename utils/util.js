@@ -25,10 +25,13 @@ function createExitHandler(flag) {
     output:process.stdout
   })
   rl.on('SIGINT', input => {
+    flag.to_quit = true
     rl.question('确定要退出吗？',(answer)=>{
       if(answer.match(/^y(es)?$/i)) {
+        flag.pause = false
         flag.run = false
       }
+      flag.to_quit = false
       rl.pause();
     });
   })

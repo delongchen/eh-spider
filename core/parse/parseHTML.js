@@ -9,7 +9,7 @@ function mark(style) {
 class HTMLParser {
   $ = null
 
-  constructor(html) {
+  constructor(html = '') {
     this.$ = cheerio.load(html)
   }
 

@@ -15,5 +15,11 @@ ehAxios.interceptors.response.use(value => value.data)
 
 module.exports = {
   axios: ehAxios,
-  Get: baseAxios.get
+  Get(url) {
+    return baseAxios.get(url)
+      .catch(reason => {
+        console.log('get error')
+        return 'error'
+      })
+  }
 }

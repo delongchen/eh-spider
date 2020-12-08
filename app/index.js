@@ -2,13 +2,15 @@ const {getOneTask} = require('../core/parse')
 const {hash, createExitHandler} = require('../utils/util')
 const DB = require('../data/DBConnector')
 const {itemsFilter, initSet} = require('../data/ResultFilter')
+const {getSingleLineLogger} = require('../utils/logs')
 
 function createApp(config) {
   const {
     dataHandler,
     beforeRun,
     beforeExit,
-    nextTick
+    nextTick,
+    beforeInsert
   } = config
 
   const CONFIG = {
@@ -28,20 +30,27 @@ function createApp(config) {
   }
 
   async function waitNextTick() {
-    const time = 3600
+    const one_tick_time = 1000
+    const tick_num = 60 * 15
+    const time = tick_num * one_tick_time
+    const { print } = getSingleLineLogger(time, one_tick_time)
+
     CONFIG.pause = true
     let counter = 0
 
     while (CONFIG.pause) {
       await new Promise(resolve => {
-        if (counter === time) CONFIG.pause = false
-        setTimeout(() => {
+        if (counter === tick_num) {
+          CONFIG.pause = false
+          resolve()
+        }
+        else {
           if (!CONFIG.to_quit) {
-            console.log(`wait 1 second... now: ${counter} all: ${time}`)
+            print(one_tick_time)
             counter++
           }
-          resolve()
-        }, 1000)
+          setTimeout(resolve, one_tick_time)
+        }
       })
     }
   }
@@ -52,10 +61,9 @@ function createApp(config) {
 
     beforeRun()
     while (CONFIG.run) {
-      console.log('start run')
       const raw = await oneTask()
       const toInsert = itemsFilter(raw)
-      console.log(`fetch ${toInsert.length} items`)
+      beforeInsert(toInsert)
       await toInsert.reduce((promise, data) => {
         return promise
           .then(() =>

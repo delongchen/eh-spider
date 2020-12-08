@@ -30,9 +30,9 @@ function createExitHandler(flag) {
       if(answer.match(/^y(es)?$/i)) {
         flag.pause = false
         flag.run = false
+        rl.close()
       }
       flag.to_quit = false
-      rl.pause();
     });
   })
 }

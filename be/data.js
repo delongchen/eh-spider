@@ -1,6 +1,7 @@
 const mysql = require('mysql')
 const config = require('../config')
 const {ifNotError} = require('../utils/util')
+const {classify} = require('./utils')
 
 const INETR = (context, fn, arg) => { //ifNotErrorThenResolve
   return new Promise((resolve, reject) => {
@@ -18,29 +19,15 @@ async function getAll() {
   return result
 }
 
-const dataStore = {
-  allJson: [],
-}
-
-const dataProxy = {
-  get(target, p, receiver) {
-    const result = Reflect.get(target, p)
-    return `[${result.join(',')}]`
-  }
-}
+const dataStore = {}
 
 async function init() {
-  const all = await getAll()
-  for (const item of all) {
-    const {type, json} = item
-    dataStore.allJson.push(json)
-    ;(dataStore[type] || (dataStore[type] = [])).push(json)
-  }
+  classify(await getAll(), dataStore)
 }
-
-const data = new Proxy(dataStore, dataProxy)
 
 module.exports = {
   init,
-  data
+  dataStore
 }
+
+//init().then(value => {console.log(dataStore['Game CG'])})

@@ -37,7 +37,15 @@ function createExitHandler(flag) {
   })
 }
 
+function ifNotError(fn, reject) {
+  return function (err, data) {
+    if (err) reject(err)
+    else fn(data)
+  }
+}
+
 module.exports = {
   hash,
-  createExitHandler
+  createExitHandler,
+  ifNotError
 }

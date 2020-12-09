@@ -1,14 +1,7 @@
 const mysql = require('mysql')
+const config = require('../config')
 
-const default_info = {
-  connectionLimit : 4,
-  host: 'localhost',
-  user: 'root',
-  password: '4789516729Chen..',
-  database: 'eh'
-}
-
-const POOL = mysql.createPool(default_info)
+const POOL = mysql.createPool(config)
 
 class DBConnector {
   static query(sql, data) {

@@ -53,6 +53,7 @@ function createApp(config) {
         }
       })
     }
+    console.log('')
   }
 
   async function run() {

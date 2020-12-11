@@ -1,4 +1,6 @@
 const {createApp} = require('./app')
+const {Post} = require('./utils/requests')
+const config = require('./config')
 
 const { run } = createApp({
   dataHandler(data, result) {
@@ -18,10 +20,14 @@ const { run } = createApp({
     console.log('enter next tick')
   },
   beforeInsert(data) {
+    Post({
+      url: `http://localhost:${config.bePort}/update`,
+      data: {}
+    }).then(value => {
+
+    })
     console.log(`fetch ${data.length} items`)
   }
 })
 
-run().then(() => {
-  console.log('exited')
-})
+run().then(() => {console.log('exited')})

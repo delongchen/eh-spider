@@ -1,7 +1,7 @@
 {
   "name": "eh-spider",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "spider.js",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.0",
@@ -13,5 +13,9 @@
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0",
     "yaml": "^1.10.0"
+  },
+  "scripts": {
+    "be": "node be.js",
+    "spider": "node spider.js"
   }
 }

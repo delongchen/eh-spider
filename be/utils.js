@@ -35,7 +35,6 @@ function handlePost(request) {
       buffers.push(chunk)
     })
     request.on('end', () => {
-      console.log('posted')
       resolve(
         JSON.parse(
           Buffer.concat(buffers).toString()

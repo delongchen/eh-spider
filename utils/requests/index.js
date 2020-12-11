@@ -21,5 +21,8 @@ module.exports = {
         console.log('get error')
         return 'error'
       })
+  },
+  Post(config) {
+    return baseAxios.post(config)
   }
 }

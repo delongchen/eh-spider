@@ -1,6 +1,6 @@
 const Koa = require('koa')
-const router = require('./router')
-const { init } = require('./service')
+const router = require('./be/router')
+const { init } = require('./be/service')
 
 const app = new Koa()
 

@@ -3,7 +3,7 @@ const fs = require('fs')
 
 function parseConfig() {
   return YAML.parse(
-    fs.readFileSync('../config/database.yaml', 'utf8')
+    fs.readFileSync('./config/database.yaml', 'utf8')
   )
 }
 

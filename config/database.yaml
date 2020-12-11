@@ -4,3 +4,5 @@ user: 'root'
 password: '4789516729Chen..'
 database: 'eh'
 bePort: 3333
+one_tick_time: 1000
+tick_num: 3600

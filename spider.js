@@ -20,11 +20,15 @@ const { run } = createApp({
     console.log('enter next tick')
   },
   beforeInsert(data) {
-    Post({
-      url: `http://localhost:${config.bePort}/update`,
-      data: {}
-    }).then(value => {
+    Post(`http://localhost:${config.bePort}/update`, data.map(value => ({
+        id: value[0],
+        type: value[1],
+        json: value[2]
+      }))
+    ).then(value => {
 
+    }).catch(reason => {
+      console.log(reason)
     })
     console.log(`fetch ${data.length} items`)
   }

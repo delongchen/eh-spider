@@ -10,7 +10,7 @@ root
   })
   .post('/update', async (ctx) => {
     Store.allJson = await handlePost(ctx.req)
-    ctx.body = 'ok'
+    ctx.body = {status: true}
   })
   .get('/types', async ctx => {
     const {type} = ctx.query

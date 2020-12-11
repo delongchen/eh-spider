@@ -18,6 +18,7 @@ function classify(all, container = {}, cb) {
     if (!cb) defaultAllContainer.push(json)
     else cb(json)
   }
+  console.log(`add ${all.length} items`)
   types.add('allJson')
   return types
 }
@@ -35,11 +36,8 @@ function handlePost(request) {
       buffers.push(chunk)
     })
     request.on('end', () => {
-      resolve(
-        JSON.parse(
-          Buffer.concat(buffers).toString()
-        )
-      )
+      const li = JSON.parse(Buffer.concat(buffers).toString())
+      resolve(li)
     })
   })
 }

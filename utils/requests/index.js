@@ -22,7 +22,7 @@ module.exports = {
         return 'error'
       })
   },
-  Post(config) {
-    return baseAxios.post(config)
+  Post(url, data) {
+    return baseAxios.post(url, data)
   }
 }

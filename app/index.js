@@ -3,6 +3,7 @@ const {hash, createExitHandler} = require('../utils/util')
 const DB = require('../data/DBConnector')
 const {itemsFilter, initSet} = require('../data/ResultFilter')
 const {getSingleLineLogger} = require('../utils/logs')
+const appConfig = require('../config')
 
 function createApp(config) {
   const {
@@ -30,8 +31,10 @@ function createApp(config) {
   }
 
   async function waitNextTick() {
-    const one_tick_time = 1000
-    const tick_num = 60 * 15
+    const {
+      one_tick_time,
+      tick_num
+    } = appConfig
     const time = tick_num * one_tick_time
     const { print } = getSingleLineLogger(time, one_tick_time)
 

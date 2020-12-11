@@ -1,16 +1,21 @@
 const Koa = require('koa')
+const router = require('./router')
+const { init } = require('./service')
 
 const app = new Koa()
 
 app.use(async (ctx, next) => {
-  await next()
-
-})
-
-app.use(async ctx => {
   ctx.set({
     'Access-Control-Allow-Origin': '*'
   })
+  await next()
 });
 
-app.listen(3000);
+app
+  .use(router.routes())
+  .use(router.allowedMethods())
+
+init().then(() => {
+  app.listen(3000);
+  console.log('started')
+})

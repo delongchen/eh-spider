@@ -29,5 +29,3 @@ module.exports = {
   init,
   dataStore
 }
-
-//init().then(value => {console.log(dataStore['Game CG'])})

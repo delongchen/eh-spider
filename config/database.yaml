@@ -3,3 +3,4 @@ host: 'localhost'
 user: 'root'
 password: '4789516729Chen..'
 database: 'eh'
+bePort: 3333

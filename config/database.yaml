@@ -1,7 +1,7 @@
 connectionLimit : 4
 host: 'localhost'
 user: 'root'
-password: '4789516729Chen..'
+password: 'root'
 database: 'eh'
 bePort: 3333
 one_tick_time: 1000
